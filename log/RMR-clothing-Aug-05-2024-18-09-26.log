@@ -1,0 +1,739 @@
+Mon 05 Aug 2024 18:09:26 INFO ██Server: 	main-15
+Mon 05 Aug 2024 18:09:26 INFO ██Dir: 	/home/gutang/RMR
+
+Mon 05 Aug 2024 18:09:26 INFO 
+gpu_id=6
+use_gpu=True
+seed=[999]
+data_path=./data/
+inter_splitting_label=x_label
+filter_out_cod_start_users=True
+is_multimodal_model=True
+checkpoint_dir=saved
+save_recommended_topk=True
+recommend_topk=recommend_topk/
+embedding_size=64
+epochs=200
+stopping_step=40
+train_batch_size=1024
+learner=adam
+learning_rate=[0.001]
+learning_rate_scheduler=[0.96, 120]
+eval_step=1
+training_neg_sample_num=1
+use_neg_sampling=True
+use_full_sampling=False
+NEG_PREFIX=neg__
+USER_ID_FIELD=userID
+ITEM_ID_FIELD=itemID
+TIME_FIELD=timestamp
+field_separator=	
+metrics=['Recall', 'NDCG']
+topk=[10, 20]
+valid_metric=Recall@20
+eval_batch_size=4096
+use_raw_features=False
+max_txt_len=32
+max_img_size=256
+vocab_size=30522
+type_vocab_size=2
+hidden_size=4
+pad_token_id=0
+max_position_embeddings=512
+layer_norm_eps=1e-12
+hidden_dropout_prob=0.1
+end2end=False
+hyper_parameters=['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']
+TS_data=['sports']
+start_TS=False
+TS_batch_size=256
+TS_epoch=200
+load_meta_cols=['itemID', 'description', 'title', 'category']
+TEXT_ID_FIELD=description
+inter_file_name=clothing14-indexed-v4.inter
+text_file_name=meta-clothing-indexed.csv
+img_dir_name=img
+vision_feature_file=image_feat.npy
+text_feature_file=text_feat-v1.npy
+user_graph_dict_file=user_graph_dict.npy
+feat_embed_dim=64
+n_layers=2
+mm_image_weight=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+aggr_mode=['add']
+knn_k=[5, 10, 20]
+k=[30, 40, 50]
+n_mm_layers=[1, 2]
+u_layers=[1, 2]
+reg_weight=[0.01]
+model=RMR
+dataset=clothing
+valid_metric_bigger=True
+device=cuda
+
+
+Mon 05 Aug 2024 18:09:26 INFO clothing
+The number of users: 39387
+Average actions of users: 7.075354812501587
+The number of items: 23033
+Average actions of items: 12.099031823904832
+The number of inters: 278677
+The sparsity of the dataset: 99.969281661909%
+Mon 05 Aug 2024 18:09:26 INFO 
+====Training====
+clothing
+The number of users: 39387
+Average actions of users: 5.010231802371341
+The number of items: 23020
+Average actions of items: 8.572458731537793
+The number of inters: 197338
+The sparsity of the dataset: 99.97823530928596%
+Mon 05 Aug 2024 18:09:26 INFO 
+====Validation====
+clothing
+The number of users: 39387
+Average actions of users: 1.0193718739685682
+The number of items: 16702
+Average actions of items: 2.4039037241048975
+The number of inters: 40150
+The sparsity of the dataset: 99.99389670773579%
+Mon 05 Aug 2024 18:09:26 INFO 
+====Testing====
+clothing
+The number of users: 39387
+Average actions of users: 1.0457511361616778
+The number of items: 16803
+Average actions of items: 2.451288460393977
+The number of inters: 41189
+The sparsity of the dataset: 99.99377640221293%
+Mon 05 Aug 2024 18:09:33 INFO 
+
+=================================
+
+
+Mon 05 Aug 2024 18:09:33 INFO =========1/324: Parameters:['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']=(0.1, 30, 1, 1, 5, 'add', 0.01, 0.001, 999)=======
+Mon 05 Aug 2024 18:09:56 INFO RMR(
+  (dropout): Dropout(p=0.3, inplace=False)
+  (MLP_t): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_v): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_t_1): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_v_1): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_review): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_review_v): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_review_t): Linear(in_features=384, out_features=384, bias=True)
+)
+Trainable parameters: 64098048
+Mon 05 Aug 2024 18:10:33 INFO epoch 0 training [time: 36.36s, train loss: 17.3418]
+Mon 05 Aug 2024 18:10:41 INFO epoch 0 test result: 
+	recall@10: 0.0591    recall@20: 0.0855    ndcg@10: 0.0323    ndcg@20: 0.0390    
+Mon 05 Aug 2024 18:10:41 INFO best result: 
+	recall@10: 0.0591    recall@20: 0.0855    ndcg@10: 0.0323    ndcg@20: 0.0390    
+Mon 05 Aug 2024 18:10:41 INFO best epoch: 
+	recall@10: 0         recall@20: 0         ndcg@10: 0         ndcg@20: 0         
+
+Mon 05 Aug 2024 18:11:16 INFO epoch 1 training [time: 35.54s, train loss: 4.4307]
+Mon 05 Aug 2024 18:11:24 INFO epoch 1 test result: 
+	recall@10: 0.0637    recall@20: 0.0913    ndcg@10: 0.0348    ndcg@20: 0.0418    
+Mon 05 Aug 2024 18:11:24 INFO best result: 
+	recall@10: 0.0637    recall@20: 0.0913    ndcg@10: 0.0348    ndcg@20: 0.0418    
+Mon 05 Aug 2024 18:11:24 INFO best epoch: 
+	recall@10: 1         recall@20: 1         ndcg@10: 1         ndcg@20: 1         
+
+Mon 05 Aug 2024 18:11:59 INFO epoch 2 training [time: 35.52s, train loss: 3.2096]
+Mon 05 Aug 2024 18:12:07 INFO epoch 2 test result: 
+	recall@10: 0.0659    recall@20: 0.0952    ndcg@10: 0.0362    ndcg@20: 0.0436    
+Mon 05 Aug 2024 18:12:07 INFO best result: 
+	recall@10: 0.0659    recall@20: 0.0952    ndcg@10: 0.0362    ndcg@20: 0.0436    
+Mon 05 Aug 2024 18:12:07 INFO best epoch: 
+	recall@10: 2         recall@20: 2         ndcg@10: 2         ndcg@20: 2         
+
+Mon 05 Aug 2024 18:12:42 INFO epoch 3 training [time: 35.52s, train loss: 2.6117]
+Mon 05 Aug 2024 18:12:50 INFO epoch 3 test result: 
+	recall@10: 0.0675    recall@20: 0.0958    ndcg@10: 0.0368    ndcg@20: 0.0440    
+Mon 05 Aug 2024 18:12:50 INFO best result: 
+	recall@10: 0.0675    recall@20: 0.0958    ndcg@10: 0.0368    ndcg@20: 0.0440    
+Mon 05 Aug 2024 18:12:50 INFO best epoch: 
+	recall@10: 3         recall@20: 3         ndcg@10: 3         ndcg@20: 3         
+
+Mon 05 Aug 2024 18:13:25 INFO epoch 4 training [time: 35.51s, train loss: 2.2732]
+Mon 05 Aug 2024 18:13:33 INFO epoch 4 test result: 
+	recall@10: 0.0680    recall@20: 0.0982    ndcg@10: 0.0371    ndcg@20: 0.0448    
+Mon 05 Aug 2024 18:13:33 INFO best result: 
+	recall@10: 0.0680    recall@20: 0.0982    ndcg@10: 0.0371    ndcg@20: 0.0448    
+Mon 05 Aug 2024 18:13:33 INFO best epoch: 
+	recall@10: 4         recall@20: 4         ndcg@10: 4         ndcg@20: 4         
+
+Mon 05 Aug 2024 18:14:08 INFO epoch 5 training [time: 35.52s, train loss: 2.0636]
+Mon 05 Aug 2024 18:14:16 INFO epoch 5 test result: 
+	recall@10: 0.0699    recall@20: 0.0997    ndcg@10: 0.0382    ndcg@20: 0.0457    
+Mon 05 Aug 2024 18:14:16 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.0997    ndcg@10: 0.0382    ndcg@20: 0.0457    
+Mon 05 Aug 2024 18:14:16 INFO best epoch: 
+	recall@10: 5         recall@20: 5         ndcg@10: 5         ndcg@20: 5         
+
+Mon 05 Aug 2024 18:20:37 INFO epoch 6 training [time: 381.13s, train loss: 1.9033]
+Mon 05 Aug 2024 18:20:44 INFO epoch 6 test result: 
+	recall@10: 0.0685    recall@20: 0.0982    ndcg@10: 0.0379    ndcg@20: 0.0454    
+Mon 05 Aug 2024 18:20:44 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.0997    ndcg@10: 0.0382    ndcg@20: 0.0457    
+Mon 05 Aug 2024 18:20:44 INFO best epoch: 
+	recall@10: 5         recall@20: 5         ndcg@10: 5         ndcg@20: 5         
+
+Mon 05 Aug 2024 18:21:19 INFO epoch 7 training [time: 35.22s, train loss: 1.8988]
+Mon 05 Aug 2024 18:21:27 INFO epoch 7 test result: 
+	recall@10: 0.0690    recall@20: 0.0988    ndcg@10: 0.0380    ndcg@20: 0.0456    
+Mon 05 Aug 2024 18:21:27 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.0997    ndcg@10: 0.0382    ndcg@20: 0.0457    
+Mon 05 Aug 2024 18:21:27 INFO best epoch: 
+	recall@10: 5         recall@20: 5         ndcg@10: 5         ndcg@20: 5         
+
+Mon 05 Aug 2024 18:22:02 INFO epoch 8 training [time: 35.22s, train loss: 1.8183]
+Mon 05 Aug 2024 18:22:09 INFO epoch 8 test result: 
+	recall@10: 0.0694    recall@20: 0.1003    ndcg@10: 0.0381    ndcg@20: 0.0459    
+Mon 05 Aug 2024 18:22:09 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1003    ndcg@10: 0.0382    ndcg@20: 0.0459    
+Mon 05 Aug 2024 18:22:09 INFO best epoch: 
+	recall@10: 5         recall@20: 8         ndcg@10: 5         ndcg@20: 8         
+
+Mon 05 Aug 2024 18:22:44 INFO epoch 9 training [time: 35.21s, train loss: 1.7281]
+Mon 05 Aug 2024 18:22:52 INFO epoch 9 test result: 
+	recall@10: 0.0698    recall@20: 0.1006    ndcg@10: 0.0381    ndcg@20: 0.0459    
+Mon 05 Aug 2024 18:22:52 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1006    ndcg@10: 0.0382    ndcg@20: 0.0459    
+Mon 05 Aug 2024 18:22:52 INFO best epoch: 
+	recall@10: 5         recall@20: 9         ndcg@10: 5         ndcg@20: 8         
+
+Mon 05 Aug 2024 18:23:27 INFO epoch 10 training [time: 35.19s, train loss: 1.6885]
+Mon 05 Aug 2024 18:23:34 INFO epoch 10 test result: 
+	recall@10: 0.0685    recall@20: 0.1000    ndcg@10: 0.0378    ndcg@20: 0.0458    
+Mon 05 Aug 2024 18:23:34 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1006    ndcg@10: 0.0382    ndcg@20: 0.0459    
+Mon 05 Aug 2024 18:23:34 INFO best epoch: 
+	recall@10: 5         recall@20: 9         ndcg@10: 5         ndcg@20: 8         
+
+Mon 05 Aug 2024 18:24:10 INFO epoch 11 training [time: 35.21s, train loss: 1.6285]
+Mon 05 Aug 2024 18:24:17 INFO epoch 11 test result: 
+	recall@10: 0.0691    recall@20: 0.1005    ndcg@10: 0.0381    ndcg@20: 0.0461    
+Mon 05 Aug 2024 18:24:17 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1006    ndcg@10: 0.0382    ndcg@20: 0.0461    
+Mon 05 Aug 2024 18:24:17 INFO best epoch: 
+	recall@10: 5         recall@20: 9         ndcg@10: 5         ndcg@20: 11         
+
+Mon 05 Aug 2024 18:25:33 INFO epoch 12 training [time: 75.74s, train loss: 1.5853]
+Mon 05 Aug 2024 18:25:40 INFO epoch 12 test result: 
+	recall@10: 0.0686    recall@20: 0.0992    ndcg@10: 0.0380    ndcg@20: 0.0458    
+Mon 05 Aug 2024 18:25:40 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1006    ndcg@10: 0.0382    ndcg@20: 0.0461    
+Mon 05 Aug 2024 18:25:40 INFO best epoch: 
+	recall@10: 5         recall@20: 9         ndcg@10: 5         ndcg@20: 11         
+
+Mon 05 Aug 2024 18:26:15 INFO epoch 13 training [time: 35.18s, train loss: 1.5960]
+Mon 05 Aug 2024 18:26:23 INFO epoch 13 test result: 
+	recall@10: 0.0689    recall@20: 0.0995    ndcg@10: 0.0380    ndcg@20: 0.0458    
+Mon 05 Aug 2024 18:26:23 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1006    ndcg@10: 0.0382    ndcg@20: 0.0461    
+Mon 05 Aug 2024 18:26:23 INFO best epoch: 
+	recall@10: 5         recall@20: 9         ndcg@10: 5         ndcg@20: 11         
+
+Mon 05 Aug 2024 18:26:58 INFO epoch 14 training [time: 35.19s, train loss: 1.5649]
+Mon 05 Aug 2024 18:27:05 INFO epoch 14 test result: 
+	recall@10: 0.0695    recall@20: 0.1003    ndcg@10: 0.0383    ndcg@20: 0.0461    
+Mon 05 Aug 2024 18:27:05 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1006    ndcg@10: 0.0383    ndcg@20: 0.0461    
+Mon 05 Aug 2024 18:27:05 INFO best epoch: 
+	recall@10: 5         recall@20: 9         ndcg@10: 14         ndcg@20: 11         
+
+Mon 05 Aug 2024 18:27:40 INFO epoch 15 training [time: 35.22s, train loss: 1.5145]
+Mon 05 Aug 2024 18:27:48 INFO epoch 15 test result: 
+	recall@10: 0.0693    recall@20: 0.0997    ndcg@10: 0.0384    ndcg@20: 0.0462    
+Mon 05 Aug 2024 18:27:48 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1006    ndcg@10: 0.0384    ndcg@20: 0.0462    
+Mon 05 Aug 2024 18:27:48 INFO best epoch: 
+	recall@10: 5         recall@20: 9         ndcg@10: 15         ndcg@20: 15         
+
+Mon 05 Aug 2024 18:28:23 INFO epoch 16 training [time: 35.24s, train loss: 1.5104]
+Mon 05 Aug 2024 18:28:30 INFO epoch 16 test result: 
+	recall@10: 0.0697    recall@20: 0.0999    ndcg@10: 0.0387    ndcg@20: 0.0464    
+Mon 05 Aug 2024 18:28:30 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1006    ndcg@10: 0.0387    ndcg@20: 0.0464    
+Mon 05 Aug 2024 18:28:30 INFO best epoch: 
+	recall@10: 5         recall@20: 9         ndcg@10: 16         ndcg@20: 16         
+
+Mon 05 Aug 2024 18:29:05 INFO epoch 17 training [time: 35.24s, train loss: 1.4709]
+Mon 05 Aug 2024 18:29:13 INFO epoch 17 test result: 
+	recall@10: 0.0692    recall@20: 0.1009    ndcg@10: 0.0385    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:29:13 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1009    ndcg@10: 0.0387    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:29:13 INFO best epoch: 
+	recall@10: 5         recall@20: 17         ndcg@10: 16         ndcg@20: 17         
+
+Mon 05 Aug 2024 18:30:28 INFO epoch 18 training [time: 75.40s, train loss: 1.4376]
+Mon 05 Aug 2024 18:30:36 INFO epoch 18 test result: 
+	recall@10: 0.0691    recall@20: 0.1008    ndcg@10: 0.0385    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:30:36 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1009    ndcg@10: 0.0387    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:30:36 INFO best epoch: 
+	recall@10: 5         recall@20: 17         ndcg@10: 16         ndcg@20: 17         
+
+Mon 05 Aug 2024 18:31:11 INFO epoch 19 training [time: 35.20s, train loss: 1.4323]
+Mon 05 Aug 2024 18:31:18 INFO epoch 19 test result: 
+	recall@10: 0.0696    recall@20: 0.1011    ndcg@10: 0.0384    ndcg@20: 0.0464    
+Mon 05 Aug 2024 18:31:18 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1011    ndcg@10: 0.0387    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:31:18 INFO best epoch: 
+	recall@10: 5         recall@20: 19         ndcg@10: 16         ndcg@20: 17         
+
+Mon 05 Aug 2024 18:31:53 INFO epoch 20 training [time: 35.21s, train loss: 1.4074]
+Mon 05 Aug 2024 18:32:01 INFO epoch 20 test result: 
+	recall@10: 0.0696    recall@20: 0.1006    ndcg@10: 0.0381    ndcg@20: 0.0460    
+Mon 05 Aug 2024 18:32:01 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1011    ndcg@10: 0.0387    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:32:01 INFO best epoch: 
+	recall@10: 5         recall@20: 19         ndcg@10: 16         ndcg@20: 17         
+
+Mon 05 Aug 2024 18:32:36 INFO epoch 21 training [time: 35.22s, train loss: 1.3741]
+Mon 05 Aug 2024 18:32:43 INFO epoch 21 test result: 
+	recall@10: 0.0699    recall@20: 0.1003    ndcg@10: 0.0385    ndcg@20: 0.0462    
+Mon 05 Aug 2024 18:32:43 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1011    ndcg@10: 0.0387    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:32:43 INFO best epoch: 
+	recall@10: 5         recall@20: 19         ndcg@10: 16         ndcg@20: 17         
+
+Mon 05 Aug 2024 18:33:19 INFO epoch 22 training [time: 35.20s, train loss: 1.3475]
+Mon 05 Aug 2024 18:33:26 INFO epoch 22 test result: 
+	recall@10: 0.0692    recall@20: 0.1006    ndcg@10: 0.0384    ndcg@20: 0.0464    
+Mon 05 Aug 2024 18:33:26 INFO best result: 
+	recall@10: 0.0699    recall@20: 0.1011    ndcg@10: 0.0387    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:33:26 INFO best epoch: 
+	recall@10: 5         recall@20: 19         ndcg@10: 16         ndcg@20: 17         
+
+Mon 05 Aug 2024 18:34:01 INFO epoch 23 training [time: 35.21s, train loss: 1.3187]
+Mon 05 Aug 2024 18:34:09 INFO epoch 23 test result: 
+	recall@10: 0.0703    recall@20: 0.1013    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:34:09 INFO best result: 
+	recall@10: 0.0703    recall@20: 0.1013    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:34:09 INFO best epoch: 
+	recall@10: 23         recall@20: 23         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:35:22 INFO epoch 24 training [time: 73.41s, train loss: 1.3049]
+Mon 05 Aug 2024 18:35:29 INFO epoch 24 test result: 
+	recall@10: 0.0697    recall@20: 0.1008    ndcg@10: 0.0386    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:35:29 INFO best result: 
+	recall@10: 0.0703    recall@20: 0.1013    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:35:29 INFO best epoch: 
+	recall@10: 23         recall@20: 23         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:36:04 INFO epoch 25 training [time: 35.20s, train loss: 1.2998]
+Mon 05 Aug 2024 18:36:12 INFO epoch 25 test result: 
+	recall@10: 0.0697    recall@20: 0.1004    ndcg@10: 0.0383    ndcg@20: 0.0461    
+Mon 05 Aug 2024 18:36:12 INFO best result: 
+	recall@10: 0.0703    recall@20: 0.1013    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:36:12 INFO best epoch: 
+	recall@10: 23         recall@20: 23         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:36:47 INFO epoch 26 training [time: 35.21s, train loss: 1.2655]
+Mon 05 Aug 2024 18:36:54 INFO epoch 26 test result: 
+	recall@10: 0.0706    recall@20: 0.1011    ndcg@10: 0.0387    ndcg@20: 0.0464    
+Mon 05 Aug 2024 18:36:54 INFO best result: 
+	recall@10: 0.0706    recall@20: 0.1013    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:36:54 INFO best epoch: 
+	recall@10: 26         recall@20: 23         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:37:30 INFO epoch 27 training [time: 35.25s, train loss: 1.2425]
+Mon 05 Aug 2024 18:37:37 INFO epoch 27 test result: 
+	recall@10: 0.0700    recall@20: 0.1014    ndcg@10: 0.0385    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:37:37 INFO best result: 
+	recall@10: 0.0706    recall@20: 0.1014    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:37:37 INFO best epoch: 
+	recall@10: 26         recall@20: 27         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:38:12 INFO epoch 28 training [time: 35.25s, train loss: 1.2378]
+Mon 05 Aug 2024 18:38:20 INFO epoch 28 test result: 
+	recall@10: 0.0696    recall@20: 0.1013    ndcg@10: 0.0382    ndcg@20: 0.0463    
+Mon 05 Aug 2024 18:38:20 INFO best result: 
+	recall@10: 0.0706    recall@20: 0.1014    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:38:20 INFO best epoch: 
+	recall@10: 26         recall@20: 27         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:38:55 INFO epoch 29 training [time: 35.25s, train loss: 1.2197]
+Mon 05 Aug 2024 18:39:02 INFO epoch 29 test result: 
+	recall@10: 0.0699    recall@20: 0.1011    ndcg@10: 0.0384    ndcg@20: 0.0463    
+Mon 05 Aug 2024 18:39:02 INFO best result: 
+	recall@10: 0.0706    recall@20: 0.1014    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:39:02 INFO best epoch: 
+	recall@10: 26         recall@20: 27         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:40:14 INFO epoch 30 training [time: 71.56s, train loss: 1.1943]
+Mon 05 Aug 2024 18:40:21 INFO epoch 30 test result: 
+	recall@10: 0.0695    recall@20: 0.1015    ndcg@10: 0.0383    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:40:21 INFO best result: 
+	recall@10: 0.0706    recall@20: 0.1015    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:40:21 INFO best epoch: 
+	recall@10: 26         recall@20: 30         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:40:57 INFO epoch 31 training [time: 35.28s, train loss: 1.1876]
+Mon 05 Aug 2024 18:41:04 INFO epoch 31 test result: 
+	recall@10: 0.0702    recall@20: 0.1013    ndcg@10: 0.0385    ndcg@20: 0.0464    
+Mon 05 Aug 2024 18:41:04 INFO best result: 
+	recall@10: 0.0706    recall@20: 0.1015    ndcg@10: 0.0388    ndcg@20: 0.0466    
+Mon 05 Aug 2024 18:41:04 INFO best epoch: 
+	recall@10: 26         recall@20: 30         ndcg@10: 23         ndcg@20: 23         
+
+Mon 05 Aug 2024 18:41:39 INFO epoch 32 training [time: 35.23s, train loss: 1.1756]
+Mon 05 Aug 2024 18:41:46 INFO epoch 32 test result: 
+	recall@10: 0.0707    recall@20: 0.1019    ndcg@10: 0.0389    ndcg@20: 0.0468    
+Mon 05 Aug 2024 18:41:46 INFO best result: 
+	recall@10: 0.0707    recall@20: 0.1019    ndcg@10: 0.0389    ndcg@20: 0.0468    
+Mon 05 Aug 2024 18:41:46 INFO best epoch: 
+	recall@10: 32         recall@20: 32         ndcg@10: 32         ndcg@20: 32         
+
+Mon 05 Aug 2024 18:42:22 INFO epoch 33 training [time: 35.26s, train loss: 1.1507]
+Mon 05 Aug 2024 18:42:29 INFO epoch 33 test result: 
+	recall@10: 0.0708    recall@20: 0.1021    ndcg@10: 0.0389    ndcg@20: 0.0468    
+Mon 05 Aug 2024 18:42:29 INFO best result: 
+	recall@10: 0.0708    recall@20: 0.1021    ndcg@10: 0.0389    ndcg@20: 0.0468    
+Mon 05 Aug 2024 18:42:29 INFO best epoch: 
+	recall@10: 33         recall@20: 33         ndcg@10: 32         ndcg@20: 32         
+
+Mon 05 Aug 2024 18:43:04 INFO epoch 34 training [time: 35.26s, train loss: 1.1448]
+Mon 05 Aug 2024 18:43:12 INFO epoch 34 test result: 
+	recall@10: 0.0707    recall@20: 0.1017    ndcg@10: 0.0386    ndcg@20: 0.0465    
+Mon 05 Aug 2024 18:43:12 INFO best result: 
+	recall@10: 0.0708    recall@20: 0.1021    ndcg@10: 0.0389    ndcg@20: 0.0468    
+Mon 05 Aug 2024 18:43:12 INFO best epoch: 
+	recall@10: 33         recall@20: 33         ndcg@10: 32         ndcg@20: 32         
+
+Mon 05 Aug 2024 18:43:47 INFO epoch 35 training [time: 35.29s, train loss: 1.1327]
+Mon 05 Aug 2024 18:43:55 INFO epoch 35 test result: 
+	recall@10: 0.0703    recall@20: 0.1023    ndcg@10: 0.0386    ndcg@20: 0.0467    
+Mon 05 Aug 2024 18:43:55 INFO best result: 
+	recall@10: 0.0708    recall@20: 0.1023    ndcg@10: 0.0389    ndcg@20: 0.0468    
+Mon 05 Aug 2024 18:43:55 INFO best epoch: 
+	recall@10: 33         recall@20: 35         ndcg@10: 32         ndcg@20: 32         
+
+Mon 05 Aug 2024 18:45:02 INFO epoch 36 training [time: 67.02s, train loss: 1.1126]
+Mon 05 Aug 2024 18:45:09 INFO epoch 36 test result: 
+	recall@10: 0.0705    recall@20: 0.1022    ndcg@10: 0.0388    ndcg@20: 0.0469    
+Mon 05 Aug 2024 18:45:09 INFO best result: 
+	recall@10: 0.0708    recall@20: 0.1023    ndcg@10: 0.0389    ndcg@20: 0.0469    
+Mon 05 Aug 2024 18:45:09 INFO best epoch: 
+	recall@10: 33         recall@20: 35         ndcg@10: 32         ndcg@20: 36         
+
+Mon 05 Aug 2024 18:45:44 INFO epoch 37 training [time: 35.37s, train loss: 1.1059]
+Mon 05 Aug 2024 18:45:52 INFO epoch 37 test result: 
+	recall@10: 0.0707    recall@20: 0.1022    ndcg@10: 0.0389    ndcg@20: 0.0469    
+Mon 05 Aug 2024 18:45:52 INFO best result: 
+	recall@10: 0.0708    recall@20: 0.1023    ndcg@10: 0.0389    ndcg@20: 0.0469    
+Mon 05 Aug 2024 18:45:52 INFO best epoch: 
+	recall@10: 33         recall@20: 35         ndcg@10: 32         ndcg@20: 36         
+
+Mon 05 Aug 2024 18:46:27 INFO epoch 38 training [time: 35.29s, train loss: 1.0946]
+Mon 05 Aug 2024 18:46:34 INFO epoch 38 test result: 
+	recall@10: 0.0707    recall@20: 0.1023    ndcg@10: 0.0387    ndcg@20: 0.0468    
+Mon 05 Aug 2024 18:46:34 INFO best result: 
+	recall@10: 0.0708    recall@20: 0.1023    ndcg@10: 0.0389    ndcg@20: 0.0469    
+Mon 05 Aug 2024 18:46:34 INFO best epoch: 
+	recall@10: 33         recall@20: 35         ndcg@10: 32         ndcg@20: 36         
+
+Mon 05 Aug 2024 18:47:10 INFO epoch 39 training [time: 35.32s, train loss: 1.0801]
+Mon 05 Aug 2024 18:47:17 INFO epoch 39 test result: 
+	recall@10: 0.0711    recall@20: 0.1028    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:47:17 INFO best result: 
+	recall@10: 0.0711    recall@20: 0.1028    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:47:17 INFO best epoch: 
+	recall@10: 39         recall@20: 39         ndcg@10: 39         ndcg@20: 39         
+
+Mon 05 Aug 2024 18:47:52 INFO epoch 40 training [time: 35.35s, train loss: 1.0723]
+Mon 05 Aug 2024 18:48:00 INFO epoch 40 test result: 
+	recall@10: 0.0706    recall@20: 0.1030    ndcg@10: 0.0387    ndcg@20: 0.0470    
+Mon 05 Aug 2024 18:48:00 INFO best result: 
+	recall@10: 0.0711    recall@20: 0.1030    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:48:00 INFO best epoch: 
+	recall@10: 39         recall@20: 40         ndcg@10: 39         ndcg@20: 39         
+
+Mon 05 Aug 2024 18:48:35 INFO epoch 41 training [time: 35.31s, train loss: 1.0659]
+Mon 05 Aug 2024 18:48:42 INFO epoch 41 test result: 
+	recall@10: 0.0703    recall@20: 0.1024    ndcg@10: 0.0387    ndcg@20: 0.0469    
+Mon 05 Aug 2024 18:48:42 INFO best result: 
+	recall@10: 0.0711    recall@20: 0.1030    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:48:42 INFO best epoch: 
+	recall@10: 39         recall@20: 40         ndcg@10: 39         ndcg@20: 39         
+
+Mon 05 Aug 2024 18:49:49 INFO epoch 42 training [time: 66.49s, train loss: 1.0459]
+Mon 05 Aug 2024 18:49:56 INFO epoch 42 test result: 
+	recall@10: 0.0706    recall@20: 0.1024    ndcg@10: 0.0388    ndcg@20: 0.0468    
+Mon 05 Aug 2024 18:49:56 INFO best result: 
+	recall@10: 0.0711    recall@20: 0.1030    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:49:56 INFO best epoch: 
+	recall@10: 39         recall@20: 40         ndcg@10: 39         ndcg@20: 39         
+
+Mon 05 Aug 2024 18:50:32 INFO epoch 43 training [time: 35.34s, train loss: 1.0342]
+Mon 05 Aug 2024 18:50:39 INFO epoch 43 test result: 
+	recall@10: 0.0708    recall@20: 0.1027    ndcg@10: 0.0389    ndcg@20: 0.0470    
+Mon 05 Aug 2024 18:50:39 INFO best result: 
+	recall@10: 0.0711    recall@20: 0.1030    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:50:39 INFO best epoch: 
+	recall@10: 39         recall@20: 40         ndcg@10: 39         ndcg@20: 39         
+
+Mon 05 Aug 2024 18:51:14 INFO epoch 44 training [time: 35.32s, train loss: 1.0425]
+Mon 05 Aug 2024 18:51:22 INFO epoch 44 test result: 
+	recall@10: 0.0713    recall@20: 0.1028    ndcg@10: 0.0390    ndcg@20: 0.0470    
+Mon 05 Aug 2024 18:51:22 INFO best result: 
+	recall@10: 0.0713    recall@20: 0.1030    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:51:22 INFO best epoch: 
+	recall@10: 44         recall@20: 40         ndcg@10: 39         ndcg@20: 39         
+
+Mon 05 Aug 2024 18:51:57 INFO epoch 45 training [time: 35.24s, train loss: 1.0196]
+Mon 05 Aug 2024 18:52:04 INFO epoch 45 test result: 
+	recall@10: 0.0710    recall@20: 0.1029    ndcg@10: 0.0389    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:52:04 INFO best result: 
+	recall@10: 0.0713    recall@20: 0.1030    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:52:04 INFO best epoch: 
+	recall@10: 44         recall@20: 40         ndcg@10: 39         ndcg@20: 39         
+
+Mon 05 Aug 2024 18:52:40 INFO epoch 46 training [time: 35.24s, train loss: 1.0177]
+Mon 05 Aug 2024 18:52:47 INFO epoch 46 test result: 
+	recall@10: 0.0714    recall@20: 0.1031    ndcg@10: 0.0392    ndcg@20: 0.0473    
+Mon 05 Aug 2024 18:52:47 INFO best result: 
+	recall@10: 0.0714    recall@20: 0.1031    ndcg@10: 0.0392    ndcg@20: 0.0473    
+Mon 05 Aug 2024 18:52:47 INFO best epoch: 
+	recall@10: 46         recall@20: 46         ndcg@10: 46         ndcg@20: 46         
+
+Mon 05 Aug 2024 18:53:22 INFO epoch 47 training [time: 35.24s, train loss: 0.9998]
+Mon 05 Aug 2024 18:53:29 INFO epoch 47 test result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:53:29 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:53:29 INFO best epoch: 
+	recall@10: 47         recall@20: 47         ndcg@10: 47         ndcg@20: 47         
+
+Mon 05 Aug 2024 18:54:34 INFO epoch 48 training [time: 64.23s, train loss: 1.0019]
+Mon 05 Aug 2024 18:54:41 INFO epoch 48 test result: 
+	recall@10: 0.0716    recall@20: 0.1027    ndcg@10: 0.0391    ndcg@20: 0.0470    
+Mon 05 Aug 2024 18:54:41 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:54:41 INFO best epoch: 
+	recall@10: 47         recall@20: 47         ndcg@10: 47         ndcg@20: 47         
+
+Mon 05 Aug 2024 18:55:16 INFO epoch 49 training [time: 35.26s, train loss: 0.9890]
+Mon 05 Aug 2024 18:55:24 INFO epoch 49 test result: 
+	recall@10: 0.0711    recall@20: 0.1031    ndcg@10: 0.0390    ndcg@20: 0.0472    
+Mon 05 Aug 2024 18:55:24 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:55:24 INFO best epoch: 
+	recall@10: 47         recall@20: 47         ndcg@10: 47         ndcg@20: 47         
+
+Mon 05 Aug 2024 18:55:59 INFO epoch 50 training [time: 35.24s, train loss: 0.9825]
+Mon 05 Aug 2024 18:56:06 INFO epoch 50 test result: 
+	recall@10: 0.0711    recall@20: 0.1033    ndcg@10: 0.0390    ndcg@20: 0.0471    
+Mon 05 Aug 2024 18:56:06 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:56:06 INFO best epoch: 
+	recall@10: 47         recall@20: 47         ndcg@10: 47         ndcg@20: 47         
+
+Mon 05 Aug 2024 18:56:41 INFO epoch 51 training [time: 35.23s, train loss: 0.9720]
+Mon 05 Aug 2024 18:56:49 INFO epoch 51 test result: 
+	recall@10: 0.0706    recall@20: 0.1031    ndcg@10: 0.0389    ndcg@20: 0.0472    
+Mon 05 Aug 2024 18:56:49 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:56:49 INFO best epoch: 
+	recall@10: 47         recall@20: 47         ndcg@10: 47         ndcg@20: 47         
+
+Mon 05 Aug 2024 18:57:24 INFO epoch 52 training [time: 35.23s, train loss: 0.9673]
+Mon 05 Aug 2024 18:57:31 INFO epoch 52 test result: 
+	recall@10: 0.0710    recall@20: 0.1032    ndcg@10: 0.0390    ndcg@20: 0.0472    
+Mon 05 Aug 2024 18:57:31 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:57:31 INFO best epoch: 
+	recall@10: 47         recall@20: 47         ndcg@10: 47         ndcg@20: 47         
+
+Mon 05 Aug 2024 18:58:07 INFO epoch 53 training [time: 35.23s, train loss: 0.9592]
+Mon 05 Aug 2024 18:58:14 INFO epoch 53 test result: 
+	recall@10: 0.0716    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:58:14 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 18:58:14 INFO best epoch: 
+	recall@10: 47         recall@20: 47         ndcg@10: 47         ndcg@20: 47         
+
+Mon 05 Aug 2024 18:59:16 INFO epoch 54 training [time: 62.37s, train loss: 0.9567]
+Mon 05 Aug 2024 18:59:24 INFO epoch 54 test result: 
+	recall@10: 0.0709    recall@20: 0.1038    ndcg@10: 0.0392    ndcg@20: 0.0476    
+Mon 05 Aug 2024 18:59:24 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1038    ndcg@10: 0.0393    ndcg@20: 0.0476    
+Mon 05 Aug 2024 18:59:24 INFO best epoch: 
+	recall@10: 47         recall@20: 54         ndcg@10: 47         ndcg@20: 54         
+
+Mon 05 Aug 2024 18:59:59 INFO epoch 55 training [time: 35.25s, train loss: 0.9599]
+Mon 05 Aug 2024 19:00:06 INFO epoch 55 test result: 
+	recall@10: 0.0712    recall@20: 0.1034    ndcg@10: 0.0393    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:00:06 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1038    ndcg@10: 0.0393    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:00:06 INFO best epoch: 
+	recall@10: 47         recall@20: 54         ndcg@10: 47         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:00:42 INFO epoch 56 training [time: 35.24s, train loss: 0.9524]
+Mon 05 Aug 2024 19:00:49 INFO epoch 56 test result: 
+	recall@10: 0.0713    recall@20: 0.1034    ndcg@10: 0.0392    ndcg@20: 0.0474    
+Mon 05 Aug 2024 19:00:49 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1038    ndcg@10: 0.0393    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:00:49 INFO best epoch: 
+	recall@10: 47         recall@20: 54         ndcg@10: 47         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:01:24 INFO epoch 57 training [time: 35.23s, train loss: 0.9486]
+Mon 05 Aug 2024 19:01:32 INFO epoch 57 test result: 
+	recall@10: 0.0711    recall@20: 0.1030    ndcg@10: 0.0393    ndcg@20: 0.0474    
+Mon 05 Aug 2024 19:01:32 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1038    ndcg@10: 0.0393    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:01:32 INFO best epoch: 
+	recall@10: 47         recall@20: 54         ndcg@10: 47         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:02:07 INFO epoch 58 training [time: 35.23s, train loss: 0.9348]
+Mon 05 Aug 2024 19:02:14 INFO epoch 58 test result: 
+	recall@10: 0.0720    recall@20: 0.1032    ndcg@10: 0.0395    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:02:14 INFO best result: 
+	recall@10: 0.0720    recall@20: 0.1038    ndcg@10: 0.0395    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:02:14 INFO best epoch: 
+	recall@10: 58         recall@20: 54         ndcg@10: 58         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:02:49 INFO epoch 59 training [time: 35.24s, train loss: 0.9358]
+Mon 05 Aug 2024 19:02:57 INFO epoch 59 test result: 
+	recall@10: 0.0718    recall@20: 0.1035    ndcg@10: 0.0394    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:02:57 INFO best result: 
+	recall@10: 0.0720    recall@20: 0.1038    ndcg@10: 0.0395    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:02:57 INFO best epoch: 
+	recall@10: 58         recall@20: 54         ndcg@10: 58         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:03:58 INFO epoch 60 training [time: 61.22s, train loss: 0.9329]
+Mon 05 Aug 2024 19:04:05 INFO epoch 60 test result: 
+	recall@10: 0.0718    recall@20: 0.1041    ndcg@10: 0.0394    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:04:05 INFO best result: 
+	recall@10: 0.0720    recall@20: 0.1041    ndcg@10: 0.0395    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:04:05 INFO best epoch: 
+	recall@10: 58         recall@20: 60         ndcg@10: 58         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:04:40 INFO epoch 61 training [time: 35.18s, train loss: 0.9193]
+Mon 05 Aug 2024 19:04:48 INFO epoch 61 test result: 
+	recall@10: 0.0720    recall@20: 0.1036    ndcg@10: 0.0394    ndcg@20: 0.0474    
+Mon 05 Aug 2024 19:04:48 INFO best result: 
+	recall@10: 0.0720    recall@20: 0.1041    ndcg@10: 0.0395    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:04:48 INFO best epoch: 
+	recall@10: 58         recall@20: 60         ndcg@10: 58         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:05:23 INFO epoch 62 training [time: 35.16s, train loss: 0.9128]
+Mon 05 Aug 2024 19:05:30 INFO epoch 62 test result: 
+	recall@10: 0.0719    recall@20: 0.1033    ndcg@10: 0.0395    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:05:30 INFO best result: 
+	recall@10: 0.0720    recall@20: 0.1041    ndcg@10: 0.0395    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:05:30 INFO best epoch: 
+	recall@10: 58         recall@20: 60         ndcg@10: 58         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:06:05 INFO epoch 63 training [time: 35.16s, train loss: 0.9144]
+Mon 05 Aug 2024 19:06:13 INFO epoch 63 test result: 
+	recall@10: 0.0721    recall@20: 0.1037    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:06:13 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:06:13 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:06:48 INFO epoch 64 training [time: 35.22s, train loss: 0.9119]
+Mon 05 Aug 2024 19:06:55 INFO epoch 64 test result: 
+	recall@10: 0.0719    recall@20: 0.1032    ndcg@10: 0.0395    ndcg@20: 0.0474    
+Mon 05 Aug 2024 19:06:55 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:06:55 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:07:31 INFO epoch 65 training [time: 35.24s, train loss: 0.9089]
+Mon 05 Aug 2024 19:07:38 INFO epoch 65 test result: 
+	recall@10: 0.0719    recall@20: 0.1033    ndcg@10: 0.0395    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:07:38 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:07:38 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:08:13 INFO epoch 66 training [time: 35.23s, train loss: 0.9116]
+Mon 05 Aug 2024 19:08:21 INFO epoch 66 test result: 
+	recall@10: 0.0718    recall@20: 0.1033    ndcg@10: 0.0394    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:08:21 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:08:21 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:08:56 INFO epoch 67 training [time: 35.22s, train loss: 0.9017]
+Mon 05 Aug 2024 19:09:03 INFO epoch 67 test result: 
+	recall@10: 0.0715    recall@20: 0.1033    ndcg@10: 0.0394    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:09:03 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:09:03 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:09:38 INFO epoch 68 training [time: 35.19s, train loss: 0.8992]
+Mon 05 Aug 2024 19:09:46 INFO epoch 68 test result: 
+	recall@10: 0.0718    recall@20: 0.1033    ndcg@10: 0.0394    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:09:46 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:09:46 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:10:21 INFO epoch 69 training [time: 35.20s, train loss: 0.8984]
+Mon 05 Aug 2024 19:10:28 INFO epoch 69 test result: 
+	recall@10: 0.0718    recall@20: 0.1033    ndcg@10: 0.0394    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:10:28 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:10:28 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:11:03 INFO epoch 70 training [time: 35.16s, train loss: 0.8992]
+Mon 05 Aug 2024 19:11:11 INFO epoch 70 test result: 
+	recall@10: 0.0718    recall@20: 0.1033    ndcg@10: 0.0394    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:11:11 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:11:11 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:11:46 INFO epoch 71 training [time: 35.16s, train loss: 0.8955]
+Mon 05 Aug 2024 19:11:53 INFO epoch 71 test result: 
+	recall@10: 0.0718    recall@20: 0.1034    ndcg@10: 0.0394    ndcg@20: 0.0475    
+Mon 05 Aug 2024 19:11:53 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:11:53 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:12:28 INFO epoch 72 training [time: 35.17s, train loss: 0.8981]
+Mon 05 Aug 2024 19:12:36 INFO epoch 72 test result: 
+	recall@10: 0.0718    recall@20: 0.1032    ndcg@10: 0.0394    ndcg@20: 0.0474    
+Mon 05 Aug 2024 19:12:36 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:12:36 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:13:11 INFO epoch 73 training [time: 35.19s, train loss: 0.8969]
+Mon 05 Aug 2024 19:13:18 INFO epoch 73 test result: 
+	recall@10: 0.0718    recall@20: 0.1033    ndcg@10: 0.0394    ndcg@20: 0.0474    
+Mon 05 Aug 2024 19:13:18 INFO best result: 
+	recall@10: 0.0721    recall@20: 0.1041    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:13:18 INFO best epoch: 
+	recall@10: 63         recall@20: 60         ndcg@10: 63         ndcg@20: 54         
+
+Mon 05 Aug 2024 19:13:18 INFO +++++Finished training, best eval result in epoch 73
+Mon 05 Aug 2024 19:13:18 INFO best valid result: recall@10: 0.0714    recall@20: 0.1028    ndcg@10: 0.0391    ndcg@20: 0.0470    
+Mon 05 Aug 2024 19:13:18 INFO test result: recall@10: 0.0721    recall@20: 0.1037    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:13:18 INFO ████Current BEST████:
+Parameters: ['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']=(0.1, 30, 1, 1, 5, 'add', 0.01, 0.001, 999),
+Valid: recall@10: 0.0714    recall@20: 0.1028    ndcg@10: 0.0391    ndcg@20: 0.0470    ,
+Test: recall@10: 0.0721    recall@20: 0.1037    ndcg@10: 0.0396    ndcg@20: 0.0476    
+
+
+
+Mon 05 Aug 2024 19:13:18 INFO 
+============All Over=====================
+Mon 05 Aug 2024 19:13:18 INFO Parameters: ['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']=(0.1, 30, 1, 1, 5, 'add', 0.01, 0.001, 999),
+ best valid: recall@10: 0.0714    recall@20: 0.1028    ndcg@10: 0.0391    ndcg@20: 0.0470    ,
+ best test: recall@10: 0.0721    recall@20: 0.1037    ndcg@10: 0.0396    ndcg@20: 0.0476    
+Mon 05 Aug 2024 19:13:18 INFO 
+
+█████████████ BEST ████████████████
+Mon 05 Aug 2024 19:13:18 INFO 	Parameters: ['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']=(0.1, 30, 1, 1, 5, 'add', 0.01, 0.001, 999),
+Valid: recall@10: 0.0714    recall@20: 0.1028    ndcg@10: 0.0391    ndcg@20: 0.0470    ,
+Test: recall@10: 0.0721    recall@20: 0.1037    ndcg@10: 0.0396    ndcg@20: 0.0476    
+
+
