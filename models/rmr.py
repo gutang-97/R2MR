@@ -24,25 +24,25 @@ class RMR(GeneralRecommender):
         num_user = self.n_users
         num_item = self.n_items
         batch_size = config['train_batch_size']         
-        dim_x = config['embedding_size']                # 64
-        self.feat_embed_dim = config['feat_embed_dim']  # 64
-        self.n_layers = config['n_mm_layers']           # 1
-        self.knn_k = config['knn_k']                    # 5 
-        self.mm_image_weight = config['mm_image_weight']# 0.1 
+        dim_x = config['embedding_size']                
+        self.feat_embed_dim = config['feat_embed_dim']  
+        self.n_layers = config['n_mm_layers']           
+        self.knn_k = config['knn_k']                    
+        self.mm_image_weight = config['mm_image_weight']
         has_id = True
         self.dropout = nn.Dropout(p=0.3)
         self.batch_size = batch_size
-        self.num_user = num_user                       # 19445
-        self.num_item = num_item                       # 7050
+        self.num_user = num_user                       
+        self.num_item = num_item                       
         self.k = 40
         self.num_interest = 3
-        self.aggr_mode = config['aggr_mode']           # add
+        self.aggr_mode = config['aggr_mode']           
         self.user_aggr_mode = 'softmax'
         self.num_layer = 1
         self.dataset = dataset
         #self.construction = 'weighted_max'
         self.construction = 'cat'
-        self.reg_weight = config['reg_weight']        # 0.001 
+        self.reg_weight = config['reg_weight']        
         self.drop_rate = 0.1
         self.v_rep = None
         self.t_rep = None
@@ -62,14 +62,14 @@ class RMR(GeneralRecommender):
 
         if self.v_feat is not None:
             # self.v_feat = nn.Parameter(self.v_feat)
-            self.v_feat = nn.Embedding.from_pretrained(self.v_feat, freeze=False).weight  #(7050,4096)
-            # self.image_trs = nn.Linear(self.v_feat.shape[1], self.feat_embed_dim)           #(4096,64) 
+            self.v_feat = nn.Embedding.from_pretrained(self.v_feat, freeze=False).weight  
+            # self.image_trs = nn.Linear(self.v_feat.shape[1], self.feat_embed_dim)            
         if self.t_feat is not None:
             # self.t_feat = nn.Parameter(self.t_feat)
             self.t_feat = nn.Embedding.from_pretrained(self.t_feat, freeze=False).weight
 
         
-        train_interactions = dataset.inter_matrix(form='coo').astype(np.float32)                     # (19445,7050)
+        train_interactions = dataset.inter_matrix(form='coo').astype(np.float32)                     
         
         self.ui_graph = self.matrix_to_tensor(self.csr_norm(train_interactions, mean_flag=False))
         self.iu_graph = self.matrix_to_tensor(self.csr_norm(train_interactions.T, mean_flag=False))
@@ -117,7 +117,7 @@ class RMR(GeneralRecommender):
         self.t_score = None
         self.v_score = None
         if os.path.exists(mm_adj_file):
-            self.mm_adj = torch.load(mm_adj_file)                                           #(7050,7050)
+            self.mm_adj = torch.load(mm_adj_file)                                           
         else:
             if self.v_feat is not None:
                 indices, image_adj = self.get_knn_adj_mat(self.image_embedding.weight.detach())
@@ -138,7 +138,7 @@ class RMR(GeneralRecommender):
 
             self.weight_u.data = nn.init.xavier_normal_(
                 torch.tensor(np.random.randn(self.num_user, 2), dtype=torch.float32, requires_grad=True)).to(self.device)
-            # self.weight_u.data = F.softmax(self.weight_u, dim=1)                                        # (19445,2,1)
+            # self.weight_u.data = F.softmax(self.weight_u, dim=1)                                        
 
             self.t_preference.data = nn.init.xavier_normal_(torch.tensor(
                 np.random.randn(self.num_user, self.dim_latent), dtype=torch.float32, requires_grad=True),
@@ -169,10 +169,10 @@ class RMR(GeneralRecommender):
     
     def matrix_to_tensor(self, cur_matrix):
         if type(cur_matrix) != sp.coo_matrix:
-            cur_matrix = cur_matrix.tocoo()  #
-        ui_indices = torch.from_numpy(np.vstack((cur_matrix.row, cur_matrix.col)).astype(np.int64))  #
+            cur_matrix = cur_matrix.tocoo()  
+        ui_indices = torch.from_numpy(np.vstack((cur_matrix.row, cur_matrix.col)).astype(np.int64))  
         iu_indices = torch.from_numpy(np.vstack((cur_matrix.col, cur_matrix.row)).astype(np.int64))
-        values = torch.from_numpy(cur_matrix.data)  #
+        values = torch.from_numpy(cur_matrix.data)  
         shape = torch.Size(cur_matrix.shape)
 
         return torch.sparse.FloatTensor(ui_indices, values, shape).to(torch.float32).cuda()
@@ -219,7 +219,7 @@ class RMR(GeneralRecommender):
 
     
     def pre_epoch_processing(self):
-        self.epoch_user_graph, self.user_weight_matrix = self.topk_sample(self.k)   #（19445,40) (19445,40)
+        self.epoch_user_graph, self.user_weight_matrix = self.topk_sample(self.k)   
         self.user_weight_matrix = self.user_weight_matrix.to(self.device)
 
     def pack_edge_index(self, inter_mat):
@@ -275,7 +275,7 @@ class RMR(GeneralRecommender):
     
 
     def review_modal(self, modal_feat, index=None, check_pattern="none"):
-        user_id_feat = self.MLP_review(self.dropout(self.user_id_embedding)) #(19445,150)
+        user_id_feat = self.MLP_review(self.dropout(self.user_id_embedding)) 
         user_id_feat = user_id_feat.view((user_id_feat.shape[0],self.k,-1))
         
         if check_pattern=="text":
@@ -295,7 +295,7 @@ class RMR(GeneralRecommender):
             
         review_list = []
         for feat in modal_feat:
-            score_mat = torch.sigmoid(torch.matmul(user_id_feat.half(),feat.transpose(1,0).half())) #(19445,k, 7050)
+            score_mat = torch.sigmoid(torch.matmul(user_id_feat.half(),feat.transpose(1,0).half())) 
             score_mat = score_mat.mean(dim=1).transpose(1,0)#(7050, 19445)
             score_mat = score_mat * adj_mask
             feat_score = (score_mat.sum(dim=1)/(adj_mask.sum(dim=1) + adj_bool)).unsqueeze(1)     
@@ -440,16 +440,16 @@ class Modal_Reviewer(torch.nn.Module):
         # z_q = z + (z_q - z).detach() 
     
     def forward(self,modal_feat,preference_list):
-        preference = sum(preference_list) / len(preference_list)   #(19445,64)
-        # muti_preference = self._multi_interests(preference)        #(19945,k,64)
+        preference = sum(preference_list) / len(preference_list)   
+        # muti_preference = self._multi_interests(preference)        
         review_list = []
         review_soft_list = []
-        for feat in modal_feat:                                         #(7050, 64)
-            score_mat = torch.sigmoid(torch.matmul(feat,preference.transpose(1,0)))      #(7050, 19445)
+        for feat in modal_feat:                                         
+            score_mat = torch.sigmoid(torch.matmul(feat,preference.transpose(1,0)))      
             score_mat = score_mat * self.dense_adj_mask
-            feat_score = (score_mat.sum(dim=1)/(self.dense_adj_mask.sum(dim=1) + +self.dense_adj_bool)).unsqueeze(1)               #(7050,1)
+            feat_score = (score_mat.sum(dim=1)/(self.dense_adj_mask.sum(dim=1) + +self.dense_adj_bool)).unsqueeze(1)               
             review_list.append(feat_score)
-        # return torch.cat(review_list,dim=1), torch.cat(review_soft_list, dim=1), muti_preference.mean(dim=1)                                 #(7050,2)                    
+        # return torch.cat(review_list,dim=1), torch.cat(review_soft_list, dim=1), muti_preference.mean(dim=1)                                                  
         return   torch.cat(review_list,dim=1)        
 
         
@@ -463,12 +463,12 @@ class User_Graph_sample(torch.nn.Module):
 
     def forward(self, features,user_graph,user_matrix):
         index = user_graph
-        u_features = features[index]           #(19445,40,128)
-        user_matrix = user_matrix.unsqueeze(1) #(19445,1,40)
+        u_features = features[index]           
+        user_matrix = user_matrix.unsqueeze(1) 
         # pdb.set_trace()
         u_pre = torch.matmul(user_matrix,u_features)
         u_pre = u_pre.squeeze()
-        return u_pre                           #(19445,128)
+        return u_pre                           
 
 
 class GCN(torch.nn.Module):
@@ -489,19 +489,19 @@ class GCN(torch.nn.Module):
         self.device = device
 
         if self.dim_latent:
-            # self.MLP = nn.Linear(self.dim_feat, 4*self.dim_latent)                                  #(4096, 4*64)
-            # self.MLP_1 = nn.Linear(4*self.dim_latent, self.dim_latent)                              #(4*64, 64)
-            self.conv_embed_1 = Base_gcn(self.dim_latent, self.dim_latent, aggr=self.aggr_mode)     #()
+            # self.MLP = nn.Linear(self.dim_feat, 4*self.dim_latent)                                  
+            # self.MLP_1 = nn.Linear(4*self.dim_latent, self.dim_latent)                              
+            self.conv_embed_1 = Base_gcn(self.dim_latent, self.dim_latent, aggr=self.aggr_mode)     
         else:
             self.conv_embed_1 = Base_gcn(self.dim_latent, self.dim_latent, aggr=self.aggr_mode)
 
     def forward(self,edge_index,features, preference):
-        # temp_features = self.MLP_1(F.leaky_relu(self.MLP(features))) if self.dim_latent else features   #(7050,64)
+        # temp_features = self.MLP_1(F.leaky_relu(self.MLP(features))) if self.dim_latent else features   
         temp_features = features
-        x = torch.cat((preference, temp_features), dim=0).to(self.device)                          #(19445+7050=26495,64)
+        x = torch.cat((preference, temp_features), dim=0).to(self.device)                          
         x = F.normalize(x).to(self.device)     
-        h = self.conv_embed_1(x, edge_index)  # equation 1  [26495, 64], [2,237102] --> [26495, 64]
-        h_1 = self.conv_embed_1(h, edge_index) # [26495, 64], [2,237102] --> [26495, 64]
+        h = self.conv_embed_1(x, edge_index)  
+        h_1 = self.conv_embed_1(h, edge_index) 
         x_hat = x + h + h_1
 
         return x_hat
