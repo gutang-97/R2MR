@@ -23,7 +23,7 @@ class RMR(GeneralRecommender):
 
         num_user = self.n_users
         num_item = self.n_items
-        batch_size = config['train_batch_size']         # 2048 , not used
+        batch_size = config['train_batch_size']         
         dim_x = config['embedding_size']                # 64
         self.feat_embed_dim = config['feat_embed_dim']  # 64
         self.n_layers = config['n_mm_layers']           # 1
@@ -342,7 +342,7 @@ class RMR(GeneralRecommender):
         user_rep = torch.cat([t_user_embed, v_user_embed], dim=-1)
         h = item_rep
         for i in range(self.n_layers):
-            h = torch.sparse.mm(self.mm_adj, h)                                          #(7050,128),这一步提分应该很多
+            h = torch.sparse.mm(self.mm_adj, h)                                          
         item_rep = item_rep + h
         return user_rep, item_rep
 
