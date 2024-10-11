@@ -340,10 +340,7 @@ class RMR(GeneralRecommender):
 
         item_rep = torch.cat([t_item_embed, v_item_embed], dim=-1)
         user_rep = torch.cat([t_user_embed, v_user_embed], dim=-1)
-        h = item_rep
-        for i in range(self.n_layers):
-            h = torch.sparse.mm(self.mm_adj, h)                                          
-        item_rep = item_rep + h
+
         return user_rep, item_rep
 
        
