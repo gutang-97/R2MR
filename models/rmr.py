@@ -56,9 +56,7 @@ class RMR(GeneralRecommender):
         self.a_feat = None
         
         dataset_path = os.path.abspath(config['data_path'] + config['dataset'])
-        # self.user_graph_dict = np.load(os.path.join(dataset_path, config['user_graph_dict_file']), allow_pickle=True).item()
-        
-        mm_adj_file = os.path.join(dataset_path, 'mm_adj_{}.pt'.format(self.knn_k))
+
 
         if self.v_feat is not None:
             # self.v_feat = nn.Parameter(self.v_feat)
@@ -116,20 +114,6 @@ class RMR(GeneralRecommender):
             self.MLP_a = nn.Linear(self.a_feat.shape[1], self.dim_latent)
         self.t_score = None
         self.v_score = None
-        if os.path.exists(mm_adj_file):
-            self.mm_adj = torch.load(mm_adj_file)                                           
-        else:
-            if self.v_feat is not None:
-                indices, image_adj = self.get_knn_adj_mat(self.image_embedding.weight.detach())
-                self.mm_adj = image_adj
-            if self.t_feat is not None:
-                indices, text_adj = self.get_knn_adj_mat(self.text_embedding.weight.detach())
-                self.mm_adj = text_adj
-            if self.v_feat is not None and self.t_feat is not None:
-                self.mm_adj = self.mm_image_weight * image_adj + (1.0 - self.mm_image_weight) * text_adj
-                del text_adj
-                del image_adj
-            torch.save(self.mm_adj, mm_adj_file)
             
     def _reset_paramaters(self):
         with torch.no_grad():
