@@ -59,11 +59,8 @@ class RMR(GeneralRecommender):
 
 
         if self.v_feat is not None:
-            # self.v_feat = nn.Parameter(self.v_feat)
-            self.v_feat = nn.Embedding.from_pretrained(self.v_feat, freeze=False).weight  
-            # self.image_trs = nn.Linear(self.v_feat.shape[1], self.feat_embed_dim)            
+            self.v_feat = nn.Embedding.from_pretrained(self.v_feat, freeze=False).weight         
         if self.t_feat is not None:
-            # self.t_feat = nn.Parameter(self.t_feat)
             self.t_feat = nn.Embedding.from_pretrained(self.t_feat, freeze=False).weight
 
         
@@ -85,7 +82,6 @@ class RMR(GeneralRecommender):
         nn.init.uniform_(self.MLP_v.weight,a=-1.0,b=1.0)
 
         self.MLP_t_1 = nn.Linear(self.dim_latent, self.dim_latent)
-        # nn.init.uniform_(self.MLP_t.weight,a=-1.0,b=1.0)
         self.MLP_v_1 = nn.Linear(self.dim_latent, self.dim_latent)
 
         self.k = 1
@@ -114,31 +110,8 @@ class RMR(GeneralRecommender):
             self.MLP_a = nn.Linear(self.a_feat.shape[1], self.dim_latent)
         self.t_score = None
         self.v_score = None
-            
-    def _reset_paramaters(self):
-        with torch.no_grad():
-            self.user_id_embedding.data = nn.init.normal_(torch.zeros(self.n_users, self.dim_latent)).to(self.device)
-            self.item_id_embedding.data = nn.init.normal_(torch.zeros(self.n_items, self.dim_latent)).to(self.device)
 
-            self.weight_u.data = nn.init.xavier_normal_(
-                torch.tensor(np.random.randn(self.num_user, 2), dtype=torch.float32, requires_grad=True)).to(self.device)
-            # self.weight_u.data = F.softmax(self.weight_u, dim=1)                                        
 
-            self.t_preference.data = nn.init.xavier_normal_(torch.tensor(
-                np.random.randn(self.num_user, self.dim_latent), dtype=torch.float32, requires_grad=True),
-                gain=1).to(self.device)
-            self.v_preference.data = nn.init.xavier_normal_(torch.tensor(
-                np.random.randn(self.num_user, self.dim_latent), dtype=torch.float32, requires_grad=True),
-                gain=1).to(self.device)
-
-            # self.MLP_t = nn.Linear(self.t_feat.shape[1], self.dim_latent)
-            self.MLP_t.weight.data = torch.empty(self.dim_latent,self.t_feat.shape[1]).to(self.device)
-            nn.init.xavier_normal_(self.MLP_t.weight)
-            # self.MLP_v = nn.Linear(self.v_feat.shape[1], self.dim_latent).to(self.device)
-            self.MLP_v.weight.data = torch.empty( self.dim_latent,self.v_feat.shape[1]).to(self.device)
-            nn.init.xavier_normal_(self.MLP_v.weight)
-            # self.MLP_review = nn.Linear(self.dim_latent, self.dim_latent)
-            # nn.init.xavier_normal_(self.MLP_review.weight)
             
     def pca(self, x, k=2):
         x_mean = torch.mean(x, 0)
@@ -184,12 +157,10 @@ class RMR(GeneralRecommender):
         _, knn_ind = torch.topk(sim, self.knn_k, dim=-1)
         adj_size = sim.size()
         del sim
-        # construct sparse adj
         indices0 = torch.arange(knn_ind.shape[0]).to(self.device)
         indices0 = torch.unsqueeze(indices0, 1)
         indices0 = indices0.expand(-1, self.knn_k)
         indices = torch.stack((torch.flatten(indices0), torch.flatten(knn_ind)), 0)
-        # norm
         return indices, self.compute_normalized_laplacian(indices, adj_size)
     
     def compute_normalized_laplacian(self, indices, adj_size):
@@ -209,7 +180,6 @@ class RMR(GeneralRecommender):
     def pack_edge_index(self, inter_mat):
         rows = inter_mat.row
         cols = inter_mat.col + self.n_users
-        # ndarray([598918, 2]) for ml-imdb
         return np.column_stack((rows, cols))
 
     def _gcn_pp(self, item_embed, user_embed, uig, iug, norm=False):
@@ -263,12 +233,10 @@ class RMR(GeneralRecommender):
         user_id_feat = user_id_feat.view((user_id_feat.shape[0],self.k,-1))
         
         if check_pattern=="text":
-            # modal_feat[0] = self.MLP_t(modal_feat[0])
             modal_feat[0] = self.MLP_review_t(modal_feat[0])
             adj_mask = self.dense_adj_mask[index]
             adj_bool = self.dense_adj_bool[index]
         elif check_pattern == "image":
-            # modal_feat[0] = self.MLP_v(modal_feat[0])
             modal_feat[0] = self.MLP_review_v(modal_feat[0])
             adj_mask = self.dense_adj_mask[index]
             adj_bool = self.dense_adj_bool[index]
@@ -306,13 +274,11 @@ class RMR(GeneralRecommender):
         
 
         modal_scores = self.review_modal([self.MLP_review_t(t_feat), self.MLP_review_v(v_feat)])
-        # t_score, v_score = self.self_attention(t_feat, v_feat)
         t_score,v_score = modal_scores[:,0].unsqueeze(-1), modal_scores[:,1].unsqueeze(-1)
 
         self.t_score = t_score.squeeze(-1)
         self.v_score = v_score.squeeze(-1)
-        # self.t_score = t_score
-        # self.v_score = v_score
+
         temp_user = torch.tanh(self.mm(self.iu_graph,self.dropout(self.user_id_embedding)))
 
         t_feat = t_feat * (t_score + 1e-3) + (1-t_score) * temp_user
@@ -340,8 +306,7 @@ class RMR(GeneralRecommender):
         i = i[:, dropout_mask]                                      
         v = v[dropout_mask]                                        
 
-        out = torch.sparse.FloatTensor(i, v, x.shape).to(x.device)   
-        # return out * (1. / (1 - rate))                             
+        out = torch.sparse.FloatTensor(i, v, x.shape).to(x.device)                           
         return out
 
     def bpr_loss(self, interaction):
@@ -352,7 +317,6 @@ class RMR(GeneralRecommender):
         user_embed = user_embed[user_nodes]
         pos_item_embed = item_embed[pos_item_nodes]
         neg_item_embed = item_embed[neg_item_nodes]
-        # users, pos_items, neg_items = self.forward(interaction)
         pos_scores = torch.sum(torch.mul(user_embed, pos_item_embed), dim=1)
         neg_scores = torch.sum(torch.mul(user_embed, neg_item_embed), dim=1)
 
@@ -390,9 +354,6 @@ class RMR(GeneralRecommender):
 
     def full_sort_predict(self, interaction):
         user_tensor, item_tensor = self.forward()
-        # user_tensor = self.result_embed[:self.n_users]
-        # item_tensor = self.result_embed[self.n_users:]
-
         temp_user_tensor = user_tensor[interaction[0], :]
         score_matrix = torch.matmul(temp_user_tensor, item_tensor.t())
         return score_matrix
@@ -408,7 +369,6 @@ class Modal_Reviewer(torch.nn.Module):
         self.num_interests = n_interests
         self.select_value = select_value
         
-        # self.dense_adj_mask = (dense_adj != 0).float() #(19945,7040)
         self.dense_adj_mask = (dense_adj != 0).float().transpose(1,0)
         self.dense_adj_bool = (self.dense_adj_mask.sum(-1) == 0.).float()
         self.t_dim = t_dim
@@ -429,8 +389,7 @@ class Modal_Reviewer(torch.nn.Module):
             score_mat = torch.sigmoid(torch.matmul(feat,preference.transpose(1,0)))      
             score_mat = score_mat * self.dense_adj_mask
             feat_score = (score_mat.sum(dim=1)/(self.dense_adj_mask.sum(dim=1) + +self.dense_adj_bool)).unsqueeze(1)               
-            review_list.append(feat_score)
-        # return torch.cat(review_list,dim=1), torch.cat(review_soft_list, dim=1), muti_preference.mean(dim=1)                                                  
+            review_list.append(feat_score)                                                
         return   torch.cat(review_list,dim=1)        
 
         
@@ -446,7 +405,6 @@ class User_Graph_sample(torch.nn.Module):
         index = user_graph
         u_features = features[index]           
         user_matrix = user_matrix.unsqueeze(1) 
-        # pdb.set_trace()
         u_pre = torch.matmul(user_matrix,u_features)
         u_pre = u_pre.squeeze()
         return u_pre                           
@@ -469,15 +427,12 @@ class GCN(torch.nn.Module):
         self.dropout = dropout
         self.device = device
 
-        if self.dim_latent:
-            # self.MLP = nn.Linear(self.dim_feat, 4*self.dim_latent)                                  
-            # self.MLP_1 = nn.Linear(4*self.dim_latent, self.dim_latent)                              
+        if self.dim_latent:                          
             self.conv_embed_1 = Base_gcn(self.dim_latent, self.dim_latent, aggr=self.aggr_mode)     
         else:
             self.conv_embed_1 = Base_gcn(self.dim_latent, self.dim_latent, aggr=self.aggr_mode)
 
     def forward(self,edge_index,features, preference):
-        # temp_features = self.MLP_1(F.leaky_relu(self.MLP(features))) if self.dim_latent else features   
         temp_features = features
         x = torch.cat((preference, temp_features), dim=0).to(self.device)                          
         x = F.normalize(x).to(self.device)     
@@ -491,22 +446,18 @@ class GCN(torch.nn.Module):
 class Base_gcn(MessagePassing):
     def __init__(self, in_channels, out_channels, normalize=True, bias=True, aggr='add', **kwargs):
         super(Base_gcn, self).__init__(aggr=aggr, **kwargs)
-        self.aggr = aggr                  #add
-        self.in_channels = in_channels    #64
-        self.out_channels = out_channels  #64
+        self.aggr = aggr                  
+        self.in_channels = in_channels    
+        self.out_channels = out_channels  
 
     def forward(self, x, edge_index, size=None):
-        # pdb.set_trace()
         if size is None:
-        #     edge_index, _ = remove_self_loops(edge_index)
             edge_index, _ = add_self_loops(edge_index, num_nodes=x.size(0))
-        x = x.unsqueeze(-1) if x.dim() == 1 else x  #[26495, 64]
-        # pdb.set_trace()
+        x = x.unsqueeze(-1) if x.dim() == 1 else x  
         return self.propagate(edge_index, size=(x.size(0), x.size(0)), x=x)
 
     def message(self, x_j, edge_index, size):
         if self.aggr == 'add':
-            # pdb.set_trace()
             row, col = edge_index
             deg = degree(row, size[0], dtype=x_j.dtype)
             deg_inv_sqrt = deg.pow(-0.5)
@@ -542,11 +493,9 @@ class Encoder(torch.nn.Module):
         super(Encoder,self).__init__()
         self.inp_dim = inp_dim
         self.out_dim = out_dim
-        # self.channel_list = channel_list.insert(0, self.inp_dim)
         self.channel_list = channel_list
         self.channel_list.insert(0, self.inp_dim)
         self.layers = [Linears(self.channel_list[i],self.channel_list[i+1],ln=True) for i in range(len(self.channel_list)-1)]
-        # self.layers.append(nn.Linear(self.channel_list[-1], self.out_dim))
         self.layers.append(Linears(self.channel_list[-1], self.out_dim))
         self.model = nn.Sequential(*self.layers)
         
@@ -562,7 +511,6 @@ class Decoder(torch.nn.Module):
         self.channel_list = channel_list
         self.channel_list.insert(0, self.inp_dim)
         self.layers = [Linears(self.channel_list[i],self.channel_list[i+1], ln=True) for i in range(len(self.channel_list)-1)]
-        # self.layers.append(nn.Linear(self.channel_list[-1], self.out_dim))
         self.layers.append(Linears(self.channel_list[-1], self.out_dim))
         self.model = nn.Sequential(*self.layers)
         
@@ -619,21 +567,18 @@ class VQGAN4REC(torch.nn.Module):
         self.tgt_dim = tgt_dim
         self.ec_channel_list = ec_channel_list
         self.dc_channel_list = dc_channel_list
-        # self.dis_channel_list = dis_channel_list
         self.prompt_dim = prompt_dim
         self.prompt_vocab_size = prompt_vocab_size
         self.prompt_embed = nn.Embedding(self.prompt_vocab_size, self.prompt_dim)
         
         self.encoder = Encoder(self.ec_inp_dim + self.prompt_dim, self.ec_out_dim, self.ec_channel_list)
         self.decoder = Decoder(self.ec_out_dim, self.tgt_dim, self.dc_channel_list)
-        # self.discriminator = Discriminator(self.tgt_dim,dis_channel_list)
         self.code_book = Cookbook(num_codebook_vectors = code_book_num_vector, code_dim=code_dim)
     
     def forward(self,x):
         dense_feat, propmt_token = x[0], x[1]
         prompt_emb = self.prompt_embed(propmt_token)
         dense_feat = torch.cat([dense_feat, prompt_emb],dim=-1)
-        # dense_feat = F.normalize(dense_feat)
         encode_embed = self.encoder(dense_feat)
         code_embed, code_loss = self.code_book(encode_embed)
         decode_embed = self.decoder(code_embed)
@@ -667,7 +612,6 @@ class VQGANTrainer(torch.nn.Module):
         self.discriminator.train()
         for epoch in range(config["TS_epoch"]):
             all_rec_loss = 0
-            # all_g_loss = 0
             all_gan_loss = 0
             all_code_loss = 0
             for feature, pattern, label in tqdm(dataloader,desc="training TS model"):
@@ -700,7 +644,6 @@ class VQGANTrainer(torch.nn.Module):
                 self.opt_disc.zero_grad()
                 
             print("all_rec_loss: ", all_rec_loss)
-            # print("all_g_loss: ", all_g_loss)
             print("all_gan_loss: ", all_gan_loss)
             print("all_code_loss: ", all_code_loss)
     
